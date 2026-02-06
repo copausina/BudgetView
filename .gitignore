@@ -1,0 +1,17 @@
+Git ignore for a react + fastapi python project
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# React
+node_modules/
+dist/
+build/
+
