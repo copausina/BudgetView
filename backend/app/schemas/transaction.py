@@ -1,6 +1,7 @@
 from sqlmodel import SQLModel
 from datetime import datetime
 from app.models.transaction import TransactionType
+from .category import CategoryRead
 
 class TransactionRead(SQLModel):
     id: int
@@ -8,7 +9,7 @@ class TransactionRead(SQLModel):
     amount: float
     date: datetime
     type: TransactionType
-    category_id: int | None
+    category: CategoryRead
     created_at: datetime
     updated_at: datetime
 

@@ -1,15 +1,8 @@
-import { getCategories } from "../api/categories";
-import type { Transaction, Category } from "../types/transaction";
-import { useEffect, useState } from "react";
+import type { Transaction } from "../types/transaction";
 
 export default function TransactionRow({ transaction, onEdit, onDelete }: { transaction: Transaction; onEdit: (transaction: Transaction) => void; onDelete: (transaction: Transaction) => void }) {
   const isIncome = transaction.type === "income";
-  const [categories, setCategories] = useState<Category[]>([]);
-
-  useEffect(() => {
-    getCategories().then(setCategories);
-  }, []);
-
+  
   return (  
     <tr className="border-b hover:bg-gray-50">
       <td className="px-4 py-3">
@@ -23,7 +16,7 @@ export default function TransactionRow({ transaction, onEdit, onDelete }: { tran
       </td>
 
       <td className="px-4 py-3 capitalize">
-        {categories.find(c => c.id === transaction.category_id)?.name}
+        {transaction.category.name}
       </td>
 
       <td className={`px-4 py-3 text-right font-semibold ${
