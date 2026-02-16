@@ -14,7 +14,7 @@ function App() {
     getTransactions().then(setTransactions);
   }, []);
 
-  const [operation, setOperation] = useState<'create' | 'edit' | 'delete' | null>(null);
+  const [operation, setOperation] = useState<'create' | 'edit' | 'delete'>('create');
 
   function openCreateModal() {
     setEditingTransaction(null);

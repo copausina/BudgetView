@@ -15,7 +15,7 @@ class Transaction(TimestampMixin, SQLModel, table=True):
     @field_validator("amount")
     @classmethod
     def amount_must_be_positive(cls, v):
-        if v <= 0:
+        if v < 0:
             raise ValueError("Amount must be positive")
         return v
     

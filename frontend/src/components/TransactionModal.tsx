@@ -67,12 +67,16 @@ export default function TransactionModal({
       type: form.type,
       category_id: form.category_id,
     };
-
-    if (operation === "edit") {
-      updateTransaction(transaction.id, transactionForm);
-    } else if (operation === "delete") {
-      deleteTransaction(transaction.id);
-    } else {
+    
+    if (transaction) {
+      const transactionId = transaction.id;
+      if (operation === "edit") {
+        updateTransaction(transactionId, transactionForm);
+      } else {
+        deleteTransaction(transactionId);
+      }
+    }
+    else {
       createTransaction(transactionForm);
     }
 
