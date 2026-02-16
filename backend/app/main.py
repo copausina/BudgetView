@@ -5,6 +5,7 @@ from app.seed import seed_categories
 from sqlmodel import Session
 from app.api.transactions import router as transaction_router
 from app.api.categories import router as category_router
+from app.api.analytics import router as analytics_router
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -27,6 +28,7 @@ app.add_middleware(
 )
 app.include_router(transaction_router)  
 app.include_router(category_router)    
+app.include_router(analytics_router)
 
 @app.get("/")
 def root():

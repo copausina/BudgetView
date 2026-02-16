@@ -2,26 +2,43 @@ const API_BASE = "http://localhost:8000";
 
 async function request<T>(
   endpoint: string,
-  options?: RequestInit
+  options?: {
+    method?: string;
+    body?: string;
+    params?: Record<string, string>;
+  }
 ): Promise<T> {
-  const response = await fetch(`${API_BASE}${endpoint}`, {
+  let url = `${API_BASE}${endpoint}`;
+
+  if (options?.params) {
+    const query = new URLSearchParams(options.params).toString();
+    url += `?${query}`;
+  }
+
+  const response = await fetch(url, {
+    method: options?.method ?? "GET",
     headers: {
       "Content-Type": "application/json",
-      ...(options?.headers || {}),
     },
-    ...options,
+    body: options?.body,
   });
 
   if (!response.ok) {
-    throw new Error(`API error: ${response.status}`);
+    throw new Error("Request failed");
   }
 
   return response.json();
 }
 
 export const apiClient = {
-  get: <T>(endpoint: string) =>
-    request<T>(endpoint),
+    get: <T>(
+    endpoint: string,
+    options?: { params?: Record<string, string> }
+  ) =>
+    request<T>(endpoint, {
+      method: "GET",
+      params: options?.params,
+    }),
 
   post: <T>(endpoint: string, body: unknown) =>
     request<T>(endpoint, {
