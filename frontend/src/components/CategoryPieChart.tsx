@@ -7,6 +7,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import type { CategoryTotal } from "../types/analytics";
+import { useState } from "react";
 
 interface CategoryPieChartProps {
   data: CategoryTotal[];
@@ -27,6 +28,48 @@ export default function CategoryPieChart({
   data,
   title,
 }: CategoryPieChartProps) {
+  const [hiddenCategories, setHiddenCategories] = useState<Set<string>>(new Set());
+
+  const filteredData = data.filter(
+    d => !hiddenCategories.has(d.category)
+  );
+
+  const renderLegend = () => {
+    return (
+      <ul className="flex flex-wrap justify-center gap-4 mt-4">
+        {data.map((entry, index) => {
+          const isHidden = hiddenCategories.has(entry.category);
+          return (
+            <li
+              key={entry.category}
+              className={`flex items-center gap-2 cursor-pointer ${
+                isHidden ? "opacity-40" : "opacity-100"
+              }`}
+              onClick={() => toggleCategory(entry.category)}
+            >
+              <div
+                className="w-3 h-3 rounded-sm"
+                style={{
+                  backgroundColor: COLORS[index % COLORS.length],
+                }}
+              />
+              {entry.category}
+            </li>
+          );
+        })}
+      </ul>
+    );
+  };
+
+  function toggleCategory(category: string) {
+    setHiddenCategories(prev => {
+      const next = new Set(prev);
+      if (next.has(category)) next.delete(category);
+      else next.add(category);
+      return next;
+    });
+  }
+
   return (
     <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow w-full h-[350px] flex flex-col">
       <h2 className="text-lg font-semibold text-center mb-2">
@@ -37,22 +80,27 @@ export default function CategoryPieChart({
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
-              data={data}
+              data={filteredData}
               dataKey="total"
               nameKey="category"
               outerRadius="80%"
               label={false}
             >
-              {data.map((_, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
-              ))}
+              {data.map((entry, index) => {
+                const isHidden = hiddenCategories.has(entry.category);
+                if (isHidden) return null;
+                return (
+                  <Cell
+                    key={`cell-${entry.category}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                );
+              })}
             </Pie>
 
             <Tooltip />
-            <Legend wrapperStyle={{ fontSize: "15px" }} />
+            {/* custom legend height must be explicitly set or else pie chart will randomly chnage size on refreshes */}
+            <Legend content={renderLegend} height={60} wrapperStyle={{ fontSize: "15px" }} /> 
           </PieChart>
         </ResponsiveContainer>
       </div>
