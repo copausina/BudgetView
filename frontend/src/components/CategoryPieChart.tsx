@@ -40,7 +40,7 @@ export default function CategoryPieChart({
 
   const renderLegend = () => {
     return (
-      <ul className="flex flex-wrap justify-center gap-2 mt-4">
+      <ul className="flex flex-wrap justify-center gap-2 mt-2">
         {data.map((entry, index) => {
           const isHidden = hiddenCategories.has(entry.category);
           return (
@@ -103,8 +103,8 @@ export default function CategoryPieChart({
             </Pie>
 
             <Tooltip />
-            {/* custom legend height must be explicitly set or else pie chart will randomly chnage size on refreshes */}
-            <Legend content={renderLegend} height={60} wrapperStyle={{ fontSize: "15px" }} /> 
+            {/* custom legend height must be explicitly set or else pie chart will randomly change size on refreshes */}
+            <Legend content={renderLegend} height={74} wrapperStyle={{ fontSize: "15px" }} /> 
           </PieChart>
         </ResponsiveContainer>
       </div>
