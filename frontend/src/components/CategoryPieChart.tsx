@@ -22,6 +22,10 @@ const COLORS = [
   "#8b5cf6",
   "#06b6d4",
   "#ec4899",
+  "#f97316",
+  "#64748b",
+  "#21fce2e0",
+  "#286b0aff",
 ];
 
 export default function CategoryPieChart({
@@ -36,19 +40,19 @@ export default function CategoryPieChart({
 
   const renderLegend = () => {
     return (
-      <ul className="flex flex-wrap justify-center gap-4 mt-4">
+      <ul className="flex flex-wrap justify-center gap-2 mt-4">
         {data.map((entry, index) => {
           const isHidden = hiddenCategories.has(entry.category);
           return (
             <li
               key={entry.category}
-              className={`flex items-center gap-2 cursor-pointer ${
+              className={`flex items-center gap-1 cursor-pointer ${
                 isHidden ? "opacity-40" : "opacity-100"
               }`}
               onClick={() => toggleCategory(entry.category)}
             >
               <div
-                className="w-3 h-3 rounded-sm"
+                className="w-2 h-2 rounded-sm"
                 style={{
                   backgroundColor: COLORS[index % COLORS.length],
                 }}

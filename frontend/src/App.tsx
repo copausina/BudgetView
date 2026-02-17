@@ -5,11 +5,13 @@ import { getTransactions } from './api/transactions'
 import TransactionModal from './components/TransactionModal'
 import type { Transaction } from './types/transaction'
 import CategoryPieChart from './components/CategoryPieChart'
-import { getCategoryTotals } from './api/analytics'
-import type { CategoryTotal } from './types/analytics'
+import { getCashflowOverTime, getCategoryTotals } from './api/analytics'
+import type { CashflowOverPeriod, CategoryTotal } from './types/analytics'
+import CashflowLineChart from './components/CashflowLineChart'
 
 function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [cashflowData, setCashflowData] = useState<CashflowOverPeriod[]>([]);
   const [expenseCategoryTotals, setExpenseCategoryTotals] = useState<CategoryTotal[]>([]);
   const [incomeCategoryTotals, setIncomeCategoryTotals] = useState<CategoryTotal[]>([]);
   
@@ -20,6 +22,7 @@ function App() {
     getTransactions().then(setTransactions);
     getCategoryTotals({ type: 'expense' }).then(setExpenseCategoryTotals);
     getCategoryTotals({ type: 'income' }).then(setIncomeCategoryTotals);
+    getCashflowOverTime().then(setCashflowData);
   }, []);
 
   const [operation, setOperation] = useState<'create' | 'edit' | 'delete'>('create');
@@ -44,7 +47,10 @@ function App() {
 
   return (
     <div className="max-w-4xl mx-auto mt-6">
-      <div className="flex justify-around gap-4 mb-6">
+      <div className="mb-3">
+        <CashflowLineChart data={cashflowData} />
+      </div>
+      <div className="flex justify-around gap-4 mb-6">  
         <CategoryPieChart data={expenseCategoryTotals} title="Expenses by Category" />
         <CategoryPieChart data={incomeCategoryTotals} title="Income by Category" />
       </div>

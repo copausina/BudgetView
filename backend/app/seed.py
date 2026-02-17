@@ -15,7 +15,7 @@ DEFAULT_CATEGORIES = [
     {"name": "Clothes", "type": TransactionType.expense},
     {"name": "Subscriptions", "type": TransactionType.expense},
     {"name": "Investments", "type": TransactionType.expense},
-    {"name": "Miscellaneous", "type": TransactionType.expense},
+    {"name": "Misc.", "type": TransactionType.expense},
 
     # Income
     {"name": "Salary", "type": TransactionType.income},
@@ -23,7 +23,7 @@ DEFAULT_CATEGORIES = [
     {"name": "Repayment", "type": TransactionType.income},
     {"name": "Surveys", "type": TransactionType.income},
     {"name": "Odd Jobs", "type": TransactionType.income},
-    {"name": "Miscellaneous", "type": TransactionType.income},
+    {"name": "Misc.", "type": TransactionType.income},
 ]
 
 def seed_categories(session: Session):
