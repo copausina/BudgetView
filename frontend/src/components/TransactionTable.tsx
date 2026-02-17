@@ -44,8 +44,8 @@ export default function TransactionTable({ transactions, onEdit, onDelete }: Pro
           bValue = b.type;
           break;
         case 'category':
-          aValue = a.category.name.toLowerCase();
-          bValue = b.category.name.toLowerCase();
+          aValue = a.category?.name.toLowerCase() || '';
+          bValue = b.category?.name.toLowerCase() || '';
           break;
         case 'amount':
           aValue = a.amount;
